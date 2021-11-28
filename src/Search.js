@@ -7,17 +7,20 @@ function Search(props) {
   const handleClick = () => {
     let errorMsg = "";
     console.log(name, date, STUDENTS);
-    let studentnames = STUDENTS.map((v) => v.name);
+    let names = STUDENTS.map((v) => v.name);
+    let studentnames = STUDENTS.map((v) => v.name.toUpperCase());
     let validDates = STUDENTS.map((v) => v.validity);
     console.log(studentnames, validDates);
-    if (studentnames.indexOf(name) === -1) {
-      errorMsg = "Student Not registered!!";
+    let isNamevalid = studentnames.indexOf(name.toUpperCase());
+    if (isNamevalid === -1) {
+      errorMsg = name + " is not a registered student!!";
     } else {
-      let validityDate = validDates[studentnames.indexOf(name)];
-      let isValid = checkValidity(date, validityDate);
-      if (!isValid) {
+      let validityDate = validDates[isNamevalid];
+      let isDateValid = checkValidity(date, validityDate);
+      if (!isDateValid) {
         errorMsg = "Joining date is beyong valid date!!";
       }
+      setName(names[isNamevalid]);
     }
     props.handleSubmit(errorMsg, name);
   };
